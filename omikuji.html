@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>スマホでおみくじ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .phone-frame {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 800px;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 20px;
+        }
+        @media (min-width: 480px) {
+            .phone-frame {
+                border-radius: 40px;
+                height: 85vh;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+                border: 8px solid #2c3e50;
+            }
+        }
+        header {
+            text-align: center;
+            margin-top: 10px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .omikuji-card {
+            background: #fff9f9;
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            margin: auto 0;
+        }
+        .result-fortune {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .result-detail {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+        .btn-container {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5253 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(238, 82, 83, 0.4);
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.96);
+        }
+        button:disabled {
+            background: #bdc3c7;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        <header>
+            <h1>⛩️ スマホおみくじ</h1>
+            <div class="subtitle">今日の運勢を占おう</div>
+        </header>
+
+        <div class="omikuji-card">
+            <div class="result-fortune" id="fortune">✨</div>
+            <div class="result-detail" id="detail">下のボタンを押してね！</div>
+        </div>
+
+        <div class="btn-container">
+            <button id="drawBtn">おみくじを引く</button>
+        </div>
+    </div>
+
+    <script>
+        const omikujiData = [
+            { fortune: "大吉", detail: "🎉 最高の一日！何をやってもうまくいきそうです。思い切った挑戦をしてみよう。" },
+            { fortune: "中吉", detail: "✨ なかなかの好運！周りの人への感謝を忘れないと、さらに良いことがありそう。" },
+            { fortune: "小吉", detail: "🌱 じわじわと運気上昇中。コツコツ地道に努力を続けると成果が出ます。" },
+            { fortune: "吉", detail: "😊 平穏無事で安定した一日。新しい本や音楽に出会えるかも。" },
+            { fortune: "末吉", detail: "☂️ ちょっとした油断に注意。丁寧な行動を心がけると吉と出ます。" },
+            { fortune: "凶", detail: "⚡ 逆にレア！ここから上がっていくだけなので、慎重にいけば大丈夫！" }
+        ];
+
+        const fortuneDiv = document.getElementById('fortune');
+        const detailDiv = document.getElementById('detail');
+        const drawBtn = document.getElementById('drawBtn');
+
+        drawBtn.addEventListener('click', () => {
+            // 連打防止のためにボタンを使用不可にする
+            drawBtn.disabled = true;
+
+            // シャカシャカの演出を少し長く（段階的に文字を変える）
+            fortuneDiv.innerText = "🌀";
+            detailDiv.innerText = "シャカシャカ...🎋";
+
+            setTimeout(() => {
+                detailDiv.innerText = "シャカシャカ...✨";
+            }, 500);
+
+            setTimeout(() => {
+                detailDiv.innerText = "おみくじ棒が出てくるよ...！";
+            }, 1000);
+
+            // 合計約1.5秒後に結果を表示
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * omikujiData.length);
+                const selected = omikujiData[randomIndex];
+                
+                fortuneDiv.innerText = selected.fortune;
+                detailDiv.innerText = selected.detail;
+
+                // ボタンを再び押せるようにする
+                drawBtn.disabled = false;
+            }, 1600);
+        });
+    </script>
+
+</body>
+</html>

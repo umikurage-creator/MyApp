@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>お試し時計アプリ</title>
+    <style>
+        body {
+            background-color: #4669a1;
+            color: #f3f6f5;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #clock {
+            font-size: 4rem;
+            border: 2px solid #00ffcc;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="clock">00:00:00</div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // 画面の時計部分を書き換える
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // 1秒ごとに時刻を更新する
+        setInterval(updateClock, 1000);
+        
+        // ページを開いた直後にも一度実行
+        updateClock();
+    </script>
+
+</body>
+</html>
